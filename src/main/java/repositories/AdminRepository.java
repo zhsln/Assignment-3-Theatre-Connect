@@ -2,39 +2,37 @@ package repositories;
 
 import database.interfaces.IDB;
 import exception.ErrorHandler;
-import models.Performance;
+import models.Admin;
 import repositories.interfaces.IRepository;
 
 import java.sql.*;
 import java.util.LinkedList;
 import java.util.List;
 
-public class PerformanceRepository implements IRepository<Performance> {
+public class AdminRepository implements IRepository<Admin> {
     private final IDB databaseConnection;
     private Connection connection = null; // Default value of connection.
 
-    public PerformanceRepository(IDB databaseConnection) { this.databaseConnection = databaseConnection; }
+    public AdminRepository(IDB databaseConnection) {
+        this.databaseConnection = databaseConnection;
+    }
+
     @Override
-    public void createRecord(Performance performance) {
+    public void createRecord(Admin admin) {
         try {
             connection = databaseConnection.getConnection();
-            String query = "INSERT INTO performances(title, date, time, duration, venue) VALUES (?, ?, ?, ?, ?)";
+            String query = "INSERT INTO admins(login, password, name, surname, admin_level) VALUES (?, ?, ?, ?, ?)";
             PreparedStatement statement = connection.prepareStatement(query);
 
-            // mapResultSet() wasn't used, because there we don't need a performance_id.
-            statement.setString(1, performance.getTitle());
-            statement.setDate(2, Date.valueOf(performance.getDate()));
-            statement.setTime(3,performance.getTime());
-            statement.setInt(4, performance.getDuration());
-            statement.setString(5, performance.getVenue());
+            statement.setString(1,admin.getLogin());
+            statement.setString(2, admin.getPassword());
+            statement.setString(3, admin.getName());
+            statement.setString(4, admin.getSurname());
+            statement.setInt(5, admin.getAdminLevel());
 
             statement.executeUpdate();
 
-            System.out.println("Performance " + performance.getTitle() +
-                    " (" + performance.getDate() + " " + performance.getTime() + ") created successfully.");
-            /* Example,
-                Performance Swan Lake (10-02-2024 00:27:48) created successfully.
-            */
+            System.out.println("Admin " + admin.getName() + " with level " + admin.getAdminLevel() + " created successfully.");
 
         } catch (SQLException e) {
             ErrorHandler.handleSQLException(e);
@@ -48,23 +46,19 @@ public class PerformanceRepository implements IRepository<Performance> {
 
         try {
             connection = databaseConnection.getConnection();
-            String query = "UPDATE performances SET " + columnName + " = ? WHERE id = ?";
+            String query = "UPDATE admins SET " + columnName + " = ? WHERE id = ?";
             PreparedStatement preparedStatement = connection.prepareStatement(query);
             // Depending on the type of value, we use the appropriate set() method.
             if (value instanceof String) {
                 preparedStatement.setString(1, (String) value);
             } else if (value instanceof Integer) {
                 preparedStatement.setInt(1, (Integer) value);
-            } else if (value instanceof Date) {
-                preparedStatement.setDate(1, (Date) value);
-            } else if (value instanceof Time) {
-                preparedStatement.setTime(1, (Time) value);
             }
 
             preparedStatement.setInt(2, id);
             preparedStatement.executeUpdate();
 
-            System.out.println("Information about performance with id " + id + " in " + columnName + " updated successfully.");
+            System.out.println("Admin's information with id " + id + " in " + columnName + " updated successfully.");
 
         } catch (SQLException e) {
             ErrorHandler.handleSQLException(e);
@@ -77,7 +71,7 @@ public class PerformanceRepository implements IRepository<Performance> {
     public void deleteRecord(int... ids) {
         try {
             connection = databaseConnection.getConnection();
-            String query = "DELETE FROM performances WHERE id IN ("; // Start of the query.
+            String query = "DELETE FROM admins WHERE id IN ("; // Start of the query.
             for (int i = 0; i < ids.length; i++) {
                 query += i == 0 ? "?" : ", ?"; // amount of id gives us the same amount of '?'.
             }
@@ -101,12 +95,10 @@ public class PerformanceRepository implements IRepository<Performance> {
     }
 
     @Override
-    public Performance getById(int id) {
-        Performance performance = null;
-
+    public Admin getById(int id) {
         try {
             connection = databaseConnection.getConnection();
-            String query = "SELECT * FROM performances WHERE id = ?";
+            String query = "SELECT * FROM admins WHERE id = ?";
             PreparedStatement statement = connection.prepareStatement(query);
 
             statement.setInt(1, id);
@@ -126,22 +118,22 @@ public class PerformanceRepository implements IRepository<Performance> {
     }
 
     @Override
-    public List<Performance> getAll() {
+    public List<Admin> getAll() {
         try {
             connection = databaseConnection.getConnection();
-            String query = "SELECT * FROM performances";
+            String query = "SELECT * FROM admins";
             Statement statement = connection.createStatement();
 
             ResultSet resultSet = statement.executeQuery(query);
-            List<Performance> performances = new LinkedList<>();
+            List<Admin> admins = new LinkedList<>();
 
             while (resultSet.next()) {
-                Performance performance = mapResultSet(resultSet);
+                Admin admin = mapResultSet(resultSet);
 
-                performances.add(performance);
+                admins.add(admin);
             }
 
-            return performances;
+            return admins;
 
         } catch (SQLException e) {
             ErrorHandler.handleSQLException(e);
@@ -153,16 +145,15 @@ public class PerformanceRepository implements IRepository<Performance> {
     }
 
     @Override
-    public Performance mapResultSet(ResultSet resultSet) throws SQLException {
-        Performance performance = new Performance();
-        performance.setId(resultSet.getInt("id"));
-        performance.setTitle(resultSet.getString("title"));
-        performance.setDate(resultSet.getDate("date").toLocalDate());
-        performance.setTime(resultSet.getTime("time"));
-        performance.setDuration(resultSet.getInt("duration"));
-        performance.setVenue(resultSet.getString("venue"));
+    public Admin mapResultSet(ResultSet resultSet) throws SQLException {
+        Admin admin = new Admin();
+        admin.setId(resultSet.getInt("id"));
+        admin.setLogin(resultSet.getString("login"));
+        admin.setPassword(resultSet.getString("password"));
+        admin.setName(resultSet.getString("name"));
+        admin.setSurname(resultSet.getString("surname"));
 
-        return performance;
+        return admin;
     }
 
     @Override

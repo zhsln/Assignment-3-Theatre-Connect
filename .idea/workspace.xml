@@ -4,13 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b7aa963b-5259-4d83-80d6-e9315f80cc14" name="Changes" comment="Version 0.5&#10;&#10;Big improvements in all classes, repositories and interfaces.">
-      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/.gitkeep" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/postgresql_42_7_1.xml" beforeDir="false" />
+    <list default="true" id="b7aa963b-5259-4d83-80d6-e9315f80cc14" name="Changes" comment="Version 0.7&#10;&#10;Big improvements in all classes, repositories and interfaces:&#10;1. Added deleteRecord(), updateRecord() methods in IRepository.java;&#10;2. Added AdminRepository;&#10;3. Optimased getAll() method in all repositories;&#10;4. Upgraded toString() method in all classes.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/database/DatabaseConnection.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/database/DatabaseConnection.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/exception/ErrorHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/exception/ErrorHandler.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/models/Admin.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/models/Admin.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/models/Booking.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/models/Booking.java" afterDir="false" />
@@ -19,10 +14,7 @@
       <change beforePath="$PROJECT_DIR$/src/main/java/repositories/BookingRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/repositories/BookingRepository.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/repositories/PerformanceRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/repositories/PerformanceRepository.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/repositories/UserRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/repositories/UserRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/repositories/interfaces/IRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/repositories/interfaces/IRepository.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Main.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/database/DatabaseConnection.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/database/DatabaseConnection.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/database/DatabaseManager.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/database/DatabaseManager.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/exception/ErrorHandler.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/exception/ErrorHandler.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/models/Admin.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/models/Admin.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/models/User.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/models/User.class" afterDir="false" />
@@ -51,6 +43,9 @@
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
+  </component>
   <component name="ProjectColorInfo">{
   &quot;customColor&quot;: &quot;&quot;,
   &quot;associatedIndex&quot;: 7
@@ -63,31 +58,31 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Application.Main.executor": "Run",
-    "Downloaded.Files.Path.Enabled": "false",
-    "Repository.Attach.Annotations": "false",
-    "Repository.Attach.JavaDocs": "false",
-    "Repository.Attach.Sources": "false",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "master",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/zhasu/Downloads/postgresql-42.7.1.jar",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "onboarding.tips.debug.path": "C:/Users/zhasu/OneDrive/Рабочий стол/web-service-management-system/src/main/java/Main.java",
-    "project.structure.last.edited": "Libraries",
-    "project.structure.proportion": "0.15",
-    "project.structure.side.proportion": "0.2",
-    "settings.editor.selected.configurable": "configurable.group.build",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Application.Main.executor&quot;: &quot;Run&quot;,
+    &quot;Downloaded.Files.Path.Enabled&quot;: &quot;false&quot;,
+    &quot;Repository.Attach.Annotations&quot;: &quot;false&quot;,
+    &quot;Repository.Attach.JavaDocs&quot;: &quot;false&quot;,
+    &quot;Repository.Attach.Sources&quot;: &quot;false&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/zhasu/Downloads/postgresql-42.7.1.jar&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;onboarding.tips.debug.path&quot;: &quot;C:/Users/zhasu/OneDrive/Рабочий стол/web-service-management-system/src/main/java/Main.java&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Libraries&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;configurable.group.build&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
@@ -114,7 +109,8 @@
       <workItem from="1707412835003" duration="1148000" />
       <workItem from="1707413990878" duration="57000" />
       <workItem from="1707414142566" duration="1183000" />
-      <workItem from="1707473981616" duration="17809000" />
+      <workItem from="1707473981616" duration="35118000" />
+      <workItem from="1707514102974" duration="3625000" />
     </task>
     <task id="LOCAL-00001" summary="test">
       <option name="closed" value="true" />
@@ -156,7 +152,15 @@
       <option name="project" value="LOCAL" />
       <updated>1707414165119</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="Version 0.7&#10;&#10;Big improvements in all classes, repositories and interfaces:&#10;1. Added deleteRecord(), updateRecord() methods in IRepository.java;&#10;2. Added AdminRepository;&#10;3. Optimased getAll() method in all repositories;&#10;4. Upgraded toString() method in all classes.">
+      <option name="closed" value="true" />
+      <created>1707495140496</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1707495140498</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -167,6 +171,7 @@
     <MESSAGE value="test1" />
     <MESSAGE value="test2" />
     <MESSAGE value="Version 0.2&#10;&#10;Added Models and Repositories packages." />
-    <option name="LAST_COMMIT_MESSAGE" value="Version 0.2&#10;&#10;Added Models and Repositories packages." />
+    <MESSAGE value="Version 0.7&#10;&#10;Big improvements in all classes, repositories and interfaces:&#10;1. Added deleteRecord(), updateRecord() methods in IRepository.java;&#10;2. Added AdminRepository;&#10;3. Optimased getAll() method in all repositories;&#10;4. Upgraded toString() method in all classes." />
+    <option name="LAST_COMMIT_MESSAGE" value="Version 0.7&#10;&#10;Big improvements in all classes, repositories and interfaces:&#10;1. Added deleteRecord(), updateRecord() methods in IRepository.java;&#10;2. Added AdminRepository;&#10;3. Optimased getAll() method in all repositories;&#10;4. Upgraded toString() method in all classes." />
   </component>
 </project>

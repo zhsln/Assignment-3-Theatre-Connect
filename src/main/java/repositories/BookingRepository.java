@@ -6,6 +6,7 @@ import models.Booking;
 import repositories.interfaces.IRepository;
 
 import java.sql.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.LinkedList;
 import java.util.List;
@@ -50,8 +51,8 @@ public class BookingRepository implements IRepository<Booking> {
                 preparedStatement.setString(1, (String) value);
             } else if (value instanceof Integer) {
                 preparedStatement.setInt(1, (Integer) value);
-            } else if (value instanceof LocalDateTime) {
-                preparedStatement.setTimestamp(1, Timestamp.valueOf((LocalDateTime) value));
+            } else if (value instanceof LocalDate) {
+                preparedStatement.setDate(1, Date.valueOf((LocalDate) value));
             }
 
             preparedStatement.setInt(2, id);
@@ -83,7 +84,7 @@ public class BookingRepository implements IRepository<Booking> {
             }
             preparedStatement.executeUpdate();
 
-            if (bookingIds.length > 1) System.out.println("Records deleted successfully"); // records... if many id
+            if (bookingIds.length > 1) System.out.println("Records deleted successfully"); // records... if many id.
             else System.out.println("Record deleted successfully."); // record... if one id.
 
         } catch (SQLException e) {
@@ -131,10 +132,12 @@ public class BookingRepository implements IRepository<Booking> {
                     "b.booking_id, " +
                     "u.id AS user_id, " +
                     "u.name AS user_name, " +
+                    "u.surname AS user_surname, " +
                     "p.id AS performance_id, " +
                     "p.title AS performance_title, " +
                     "p.venue AS performance_venue, " +
-                    "p.timestamp AS performance_timestamp, " +
+                    "p.date AS performance_date, " +
+                    "p.time AS performance_time, " +
                     "b.seat_number " +
                     "FROM " +
                     "bookings b " +
@@ -171,10 +174,12 @@ public class BookingRepository implements IRepository<Booking> {
         booking.setBooking_id(resultSet.getInt("booking_id"));
         booking.setUser_id(resultSet.getInt("user_id"));
         booking.setUser_name(resultSet.getString("user_name"));
+        booking.setUser_surname(resultSet.getString("user_surname"));
         booking.setPerformance_id(resultSet.getInt("performance_id"));
         booking.setPerformance_title(resultSet.getString("performance_title"));
         booking.setPerformance_venue(resultSet.getString("performance_venue"));
-        booking.setPerformance_timestamp(resultSet.getTimestamp("performance_timestamp").toLocalDateTime());
+        booking.setPerformance_date(resultSet.getDate("performance_date").toLocalDate());
+        booking.setPerformance_time(resultSet.getTime("performance_time"));
         booking.setSeat_number(resultSet.getString("seat_number"));
 
         return booking;

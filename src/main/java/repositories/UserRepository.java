@@ -21,16 +21,17 @@ public class UserRepository implements IRepository<User> {
     public void createRecord(User user) {
         try {
             connection = databaseConnection.getConnection();
-            String query = "INSERT INTO users(login, password, name) VALUES (?, ?, ?)";
+            String query = "INSERT INTO users(login, password, name, surname) VALUES (?, ?, ?, ?)";
             PreparedStatement statement = connection.prepareStatement(query);
 
             statement.setString(1,user.getLogin());
             statement.setString(2, user.getPassword());
             statement.setString(3, user.getName());
+            statement.setString(4, user.getSurname());
 
             statement.executeUpdate();
 
-            System.out.println("User " + user.getName() + " created successfully.");
+            System.out.println("User " + user.getName() + " " + user.getSurname() + " created successfully.");
 
         } catch (SQLException e) {
             ErrorHandler.handleSQLException(e);
@@ -82,7 +83,7 @@ public class UserRepository implements IRepository<User> {
             }
             preparedStatement.executeUpdate();
 
-            if (ids.length > 1) System.out.println("Records deleted successfully"); // records... if many id
+            if (ids.length > 1) System.out.println("Records deleted successfully"); // records... if many id.
             else System.out.println("Record deleted successfully."); // record... if one id.
 
         } catch (SQLException e) {
@@ -146,9 +147,10 @@ public class UserRepository implements IRepository<User> {
     public User mapResultSet(ResultSet resultSet) throws SQLException {
         User user = new User();
         user.setId(resultSet.getInt("id"));
-        user.setName(resultSet.getString("name"));
         user.setLogin(resultSet.getString("login"));
         user.setPassword(resultSet.getString("password"));
+        user.setName(resultSet.getString("name"));
+        user.setSurname(resultSet.getString("surname"));
 
         return user;
     }

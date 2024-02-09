@@ -9,25 +9,27 @@ import lombok.Setter;
 @Getter
 @Setter
 
-// Class representing a User entity
+// Class representing a User entity.
 public class User {
     private int id;
     private String login;
     private String password;
     private String name;
+    private String surname;
 
-    // Arguments constructor to initialize username and password
-    public User(String login, String password, String name) {
+    // Arguments constructor (without id).
+    public User(String login, String password, String name, String surname) {
         setLogin(login);
         setPassword(password);
         setName(name);
+        setSurname(surname);
     }
 
     @Override
     public String toString() {
         return "==============================" +
                 "\n| User with ID: " + id +
-                "\n| Name: " + name +
+                "\n| Full name: " + name + " " + surname +
                 "\n| Login: " + login +
                 "\n| Password: " + password +
                 "\n==============================";

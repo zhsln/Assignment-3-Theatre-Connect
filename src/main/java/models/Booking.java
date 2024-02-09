@@ -8,7 +8,8 @@ import lombok.Setter;
 import repositories.PerformanceRepository;
 import repositories.UserRepository;
 
-import java.time.LocalDateTime;
+import java.sql.Time;
+import java.time.LocalDate;
 
 @NoArgsConstructor
 @Getter
@@ -19,10 +20,12 @@ public class Booking {
     private int booking_id;
     private int user_id;
     private String user_name;
+    private String user_surname;
     private int performance_id;
     private String performance_title;
     private String performance_venue;
-    private LocalDateTime performance_timestamp;
+    private LocalDate performance_date;
+    private Time performance_time;
     private String seat_number; /*Seat number is String,
                                 because in theatre your seat can be in the balcony, for example,
                                 and it should be noted by words in your ticket. And why it is called a number?
@@ -59,12 +62,12 @@ public class Booking {
 
             if (performance != null && user != null)
                 return "==============================" +
-                        "Booking with ID: " + booking_id +
-                        "\n| User: " + user.getName() +
+                        "\n| Booking with ID: " + booking_id +
+                        "\n| User's full name: " + user.getName() + " " + user.getSurname() +
                         "\n| Performance ID: " + performance_id +
                         "\n| Performance title: " + performance.getTitle() +
                         "\n| Venue: " + performance.getVenue() +
-                        "\n| Date and Time: " + performance.getTimestamp() +
+                        "\n| Date and Time: " + performance.getDate() + " " + performance.getTime() +
                         "\n| Seat: " + seat_number +
                         "\n==============================";
 
