@@ -27,11 +27,12 @@ public class Performance {
 
     @Override
     public String toString() {
-        return "Performance: " +
-                "\nID >>> " + id +
-                ", \nTitle >>> " + title +
-                ", \nDate and time >>> " + timestamp +
-                ", \nDuration (in minutes)" + duration +
-                ", \nVenue >>> " + venue;
+        return "==============================" +
+                "Performance with ID: " + id +
+                "\n| Title: " + title +
+                "\n| Date and Time: " + timestamp +
+                "\n| Duration (min): " + duration +
+                "\n| Venue: " + venue +
+                "\n==============================";
     }
 }

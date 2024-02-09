@@ -6,6 +6,7 @@ import models.Booking;
 import repositories.interfaces.IRepository;
 
 import java.sql.*;
+import java.time.LocalDateTime;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -27,12 +28,71 @@ public class BookingRepository implements IRepository<Booking> {
             statement.setString(3, booking.getSeat_number());
 
             statement.executeUpdate();
+
+            System.out.println("Booking with id " + booking.getUser_id() + " created successfully.");
+
         } catch (SQLException e) {
             ErrorHandler.handleSQLException(e);
         } finally {
             getFinallyBlock(connection);
         }
     }
+
+    @Override
+    public void updateRecord(int id, String columnName, Object value) {
+
+        try {
+            connection = databaseConnection.getConnection();
+            String query = "UPDATE bookings SET " + columnName + " = ? WHERE booking_id = ?";
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            // Depending on the type of value, we use the appropriate set() method.
+            if (value instanceof String) {
+                preparedStatement.setString(1, (String) value);
+            } else if (value instanceof Integer) {
+                preparedStatement.setInt(1, (Integer) value);
+            } else if (value instanceof LocalDateTime) {
+                preparedStatement.setTimestamp(1, Timestamp.valueOf((LocalDateTime) value));
+            }
+
+            preparedStatement.setInt(2, id);
+            preparedStatement.executeUpdate();
+
+            System.out.println("Booking information with id " + id + " in " + columnName + " updated successfully.");
+
+        } catch (SQLException e) {
+            ErrorHandler.handleSQLException(e);
+        } finally {
+            getFinallyBlock(connection);
+        }
+    }
+
+    @Override
+    public void deleteRecord(int... bookingIds) {
+        try {
+            connection = databaseConnection.getConnection();
+            String query = "DELETE FROM bookings WHERE booking_id IN ("; // Start of the query.
+            for (int i = 0; i < bookingIds.length; i++) {
+                query += i == 0 ? "?" : ", ?"; // amount of id gives us the same amount of '?'.
+            }
+            query += ")"; // End of the query.
+
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+
+            for (int i = 0; i < bookingIds.length; i++) {
+                preparedStatement.setInt(i + 1, bookingIds[i]); // setting one or many id to prepared statement.
+            }
+            preparedStatement.executeUpdate();
+
+            if (bookingIds.length > 1) System.out.println("Records deleted successfully"); // records... if many id
+            else System.out.println("Record deleted successfully."); // record... if one id.
+
+        } catch (SQLException e) {
+            ErrorHandler.handleSQLException(e);
+        } finally {
+            getFinallyBlock(connection);
+        }
+    }
+
 
     @Override
     public Booking getById(int booking_id) {
@@ -45,7 +105,13 @@ public class BookingRepository implements IRepository<Booking> {
 
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
-                return mapResultSet(resultSet);
+                int id = resultSet.getInt("booking_id");
+                int userId = resultSet.getInt("user_id");
+                int performanceId = resultSet.getInt("performance_id");
+                String seatNumber = resultSet.getString("seat_number");
+                Booking booking = new Booking(id, userId, performanceId, seatNumber);
+
+                return booking;
             }
 
         } catch (SQLException e) {
@@ -61,7 +127,22 @@ public class BookingRepository implements IRepository<Booking> {
     public List<Booking> getAll() {
         try {
             connection = databaseConnection.getConnection();
-            String query = "SELECT * FROM bookings";
+            String query = "SELECT " +
+                    "b.booking_id, " +
+                    "u.id AS user_id, " +
+                    "u.name AS user_name, " +
+                    "p.id AS performance_id, " +
+                    "p.title AS performance_title, " +
+                    "p.venue AS performance_venue, " +
+                    "p.timestamp AS performance_timestamp, " +
+                    "b.seat_number " +
+                    "FROM " +
+                    "bookings b " +
+                    "JOIN " +
+                    "users u ON b.user_id = u.id " +
+                    "JOIN " +
+                    "performances p ON b.performance_id = p.id;";
+
             Statement statement = connection.createStatement();
 
             ResultSet resultSet = statement.executeQuery(query);
@@ -89,7 +170,11 @@ public class BookingRepository implements IRepository<Booking> {
         Booking booking = new Booking();
         booking.setBooking_id(resultSet.getInt("booking_id"));
         booking.setUser_id(resultSet.getInt("user_id"));
+        booking.setUser_name(resultSet.getString("user_name"));
         booking.setPerformance_id(resultSet.getInt("performance_id"));
+        booking.setPerformance_title(resultSet.getString("performance_title"));
+        booking.setPerformance_venue(resultSet.getString("performance_venue"));
+        booking.setPerformance_timestamp(resultSet.getTimestamp("performance_timestamp").toLocalDateTime());
         booking.setSeat_number(resultSet.getString("seat_number"));
 
         return booking;

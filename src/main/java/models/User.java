@@ -1,11 +1,10 @@
 package models;
 
+import lombok.NoArgsConstructor;
+import lombok.Getter;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.NoArgsConstructor;
-import lombok.AllArgsConstructor;
 
-@AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
@@ -26,10 +25,11 @@ public class User {
 
     @Override
     public String toString() {
-        return "User: " +
-                "\nID >>> " + id +
-                ", \nName >>> " + name +
-                ", \nLogin >>> " + login +
-                ", \nPassword >>> " + password;
+        return "==============================" +
+                "\n| User with ID: " + id +
+                "\n| Name: " + name +
+                "\n| Login: " + login +
+                "\n| Password: " + password +
+                "\n==============================";
     }
 }

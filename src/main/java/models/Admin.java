@@ -12,14 +12,17 @@ import lombok.AllArgsConstructor;
 
 // Derived class Admin inheriting from base class User
 public class Admin extends User {
-    // Private attribute specific to Admin class
-    private String adminLevel;
+    private int adminLevel; /* Private attribute specific to Admin class.
+                               user with adminLevel == 1 can only add, change and delete records in booking table in DB.
+                               user with adminLevel == 2 can add, change and delete any records in any tables in DB. */
 
-    // Constructor for Admin class with parameters including adminLevel
-    public Admin(String login, String password, String name, String adminLevel) {
-        // Call to the constructor of the base class User
-        super(login, password, name);
-        // Initialize adminLevel attribute
-        setAdminLevel(adminLevel);
+    @Override
+    public String toString() { // This is the best toString() I've ever done... (Zhasulan)
+        return "==============================" +
+                "\n| Admin with ID: " + getId() +
+                "\n| Name: " + getName() +
+                "\n| Login: " + getLogin() +
+                "\n| Password: " + getPassword() +
+                "\n==============================";
     }
 }

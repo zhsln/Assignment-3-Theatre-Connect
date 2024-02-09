@@ -6,6 +6,7 @@ import models.Performance;
 import repositories.interfaces.IRepository;
 
 import java.sql.*;
+import java.time.LocalDateTime;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -30,6 +31,61 @@ public class PerformanceRepository implements IRepository<Performance> {
             statement.executeUpdate();
 
             System.out.println("Performance " + performance.getTitle() + " created successfully.");
+
+        } catch (SQLException e) {
+            ErrorHandler.handleSQLException(e);
+        } finally {
+            getFinallyBlock(connection);
+        }
+    }
+
+    @Override
+    public void updateRecord(int id, String columnName, Object value) {
+
+        try {
+            connection = databaseConnection.getConnection();
+            String query = "UPDATE performances SET " + columnName + " = ? WHERE id = ?";
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            // Depending on the type of value, we use the appropriate set() method.
+            if (value instanceof String) {
+                preparedStatement.setString(1, (String) value);
+            } else if (value instanceof Integer) {
+                preparedStatement.setInt(1, (Integer) value);
+            } else if (value instanceof LocalDateTime) {
+                preparedStatement.setTimestamp(1, Timestamp.valueOf((LocalDateTime) value));
+            }
+
+            preparedStatement.setInt(2, id);
+            preparedStatement.executeUpdate();
+
+            System.out.println("Information about performance with id " + id + " in " + columnName + " updated successfully.");
+
+        } catch (SQLException e) {
+            ErrorHandler.handleSQLException(e);
+        } finally {
+            getFinallyBlock(connection);
+        }
+    }
+
+    @Override
+    public void deleteRecord(int... ids) {
+        try {
+            connection = databaseConnection.getConnection();
+            String query = "DELETE FROM performances WHERE id IN ("; // Start of the query.
+            for (int i = 0; i < ids.length; i++) {
+                query += i == 0 ? "?" : ", ?"; // amount of id gives us the same amount of '?'.
+            }
+            query += ")"; // End of the query.
+
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+
+            for (int i = 0; i < ids.length; i++) {
+                preparedStatement.setInt(i + 1, ids[i]); // setting one or many id to prepared statement.
+            }
+            preparedStatement.executeUpdate();
+
+            if (ids.length > 1) System.out.println("Records deleted successfully"); // records... if many id
+            else System.out.println("Record deleted successfully."); // record... if one id.
 
         } catch (SQLException e) {
             ErrorHandler.handleSQLException(e);

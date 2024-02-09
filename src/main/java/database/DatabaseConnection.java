@@ -10,11 +10,13 @@ public class DatabaseConnection implements IDB {
     @Override
     public Connection getConnection() {
         String connectionUrl = "jdbc:postgresql://localhost:5432/theatre-connect";
+        Connection connection = null;
         try {
             // Load the PostgreSQL JDBC driver.
             Class.forName("org.postgresql.Driver");
             // Establish the connection using the connection URL, username, and password.
-            Connection connection = DriverManager.getConnection(connectionUrl, "postgres", "0000");
+
+            connection = DriverManager.getConnection(connectionUrl, "postgres", "0000");
 
             return connection;
 

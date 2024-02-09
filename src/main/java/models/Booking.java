@@ -8,27 +8,40 @@ import lombok.Setter;
 import repositories.PerformanceRepository;
 import repositories.UserRepository;
 
-import java.sql.Connection;
-import java.sql.SQLException;
+import java.time.LocalDateTime;
 
 @NoArgsConstructor
 @Getter
 @Setter
 
 public class Booking {
+    // name of fields are the same as in the table in Database.
     private int booking_id;
     private int user_id;
+    private String user_name;
     private int performance_id;
+    private String performance_title;
+    private String performance_venue;
+    private LocalDateTime performance_timestamp;
     private String seat_number; /*Seat number is String,
-                                because it theatre your seat can be in the balcony, for example,
-                                and it should be noted by words in your ticket.*/
+                                because in theatre your seat can be in the balcony, for example,
+                                and it should be noted by words in your ticket. And why it is called a number?
+                                Because seat can have information about rows and your seat number in a row.*/
     private IDB databaseConnection;
 
-    public Booking(IDB databaseConnection) {
+    /*public Booking(IDB databaseConnection) {
         this.databaseConnection = databaseConnection;
-    }
+    }*/
+
     // Arguments constructor without booking_id.
     public Booking(int user_id, int performance_id, String seat_number) {
+        setUser_id(user_id);
+        setPerformance_id(performance_id);
+        setSeat_number(seat_number);
+    }
+
+    public Booking(int booking_id, int user_id, int performance_id, String seat_number) {
+        setBooking_id(booking_id);
         setUser_id(user_id);
         setPerformance_id(performance_id);
         setSeat_number(seat_number);
@@ -41,25 +54,20 @@ public class Booking {
             PerformanceRepository performanceRepository = new PerformanceRepository(db);
             Performance performance = performanceRepository.getById(performance_id);
 
-            // Загрузка информации о пользователе
             UserRepository userRepository = new UserRepository(db);
             User user = userRepository.getById(user_id);
 
-            if (performance != null && user != null) {
-                return "Booking: " +
-                        "\nID >>> " + booking_id +
-                        ", \nUser >>> " + user.getName() +
-                        ", \nPerformance >>> " + performance.getTitle() +
-                        ", \nVenue >>> " + performance.getVenue() +
-                        ", \nDate and Time >>> " + performance.getTimestamp() +
-                        ", \nSeat Number >>> " + seat_number;
-            } else {
-                return "Booking: " +
-                        "\nID >>> " + booking_id +
-                        ", \nUser ID >>> " + user_id +
-                        ", \nPerformance ID >>> " + performance_id +
-                        ", \nSeat Number >>> " + seat_number;
-            }
+            if (performance != null && user != null)
+                return "==============================" +
+                        "Booking with ID: " + booking_id +
+                        "\n| User: " + user.getName() +
+                        "\n| Performance ID: " + performance_id +
+                        "\n| Performance title: " + performance.getTitle() +
+                        "\n| Venue: " + performance.getVenue() +
+                        "\n| Date and Time: " + performance.getTimestamp() +
+                        "\n| Seat: " + seat_number +
+                        "\n==============================";
+
         } catch (Exception e) {
             ErrorHandler.handleException(e);
         }
