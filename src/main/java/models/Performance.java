@@ -29,7 +29,7 @@ public class Performance {
     // Override toString() method for better representation.
     @Override
     public String toString() {
-        return "==============================" +
+        return "\n==============================" +
                 "\n| Performance with ID: " + id +
                 "\n| Title: " + title +
                 "\n| Date and Time: " + date + " " + time +

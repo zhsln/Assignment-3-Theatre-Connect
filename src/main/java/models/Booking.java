@@ -1,5 +1,4 @@
 package models;
-
 import database.DatabaseConnection;
 import database.interfaces.IDB;
 import exception.ErrorHandler;
@@ -8,6 +7,7 @@ import lombok.Getter;
 import lombok.Setter;
 import repositories.PerformanceRepository;
 import repositories.UserRepository;
+
 import java.sql.Time;
 import java.time.LocalDate;
 
@@ -29,16 +29,10 @@ public class Booking {
     private String seat_number; /*Seat number is String,
                                 because in theatre your seat can be in the balcony, for example,
                                 and it should be noted by words in your ticket. And why it is called a number?
-                                Because seat can have information about rows and your seat number in a row.*/
-    private IDB databaseConnection;
+                                Because seat can have information about rows and your seat number in a row.
+                                Example: Parterre: Row 13, Seat 10 */
 
-    // Arguments constructor without booking_id.
-    public Booking(int user_id, int performance_id, String seat_number) {
-        setUser_id(user_id);
-        setPerformance_id(performance_id);
-        setSeat_number(seat_number);
-    }
-
+    // Arguments constructor.
     public Booking(int booking_id, int user_id, int performance_id, String seat_number) {
         setBooking_id(booking_id);
         setUser_id(user_id);
@@ -46,7 +40,6 @@ public class Booking {
         setSeat_number(seat_number);
     }
 
-    // Override toString() method for better representation.
     @Override
     public String toString() {
         try {
@@ -58,7 +51,7 @@ public class Booking {
             User user = userRepository.getById(user_id);
 
             if (performance != null && user != null)
-                return "==============================" +
+                return "\n==============================" +
                         "\n| Booking with ID: " + booking_id +
                         "\n| User's full name: " + user.getName() + " " + user.getSurname() +
                         "\n| Performance ID: " + performance_id +

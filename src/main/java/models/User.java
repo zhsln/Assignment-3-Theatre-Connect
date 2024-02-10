@@ -2,7 +2,6 @@ package models;
 
 import lombok.NoArgsConstructor;
 import lombok.Getter;
-import lombok.Getter;
 import lombok.Setter;
 
 @NoArgsConstructor
@@ -28,7 +27,7 @@ public class User {
     // Override toString() method for better representation.
     @Override
     public String toString() {
-        return "==============================" +
+        return "\n==============================" +
                 "\n| User with ID: " + id +
                 "\n| Full name: " + name + " " + surname +
                 "\n| Login: " + login +

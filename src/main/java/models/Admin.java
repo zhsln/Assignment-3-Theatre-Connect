@@ -23,7 +23,7 @@ public class Admin extends User {
 
     @Override
     public String toString() { // This is the best toString() I've ever done... (Zhasulan)
-        return "==============================" +
+        return "\n==============================" +
                 "\n| Admin with ID: " + getId() +
                 "\n| Full name: " + getName() + " " + getSurname() +
                 "\n| Login: " + getLogin() +
