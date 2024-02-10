@@ -4,11 +4,11 @@ import database.interfaces.IDB;
 import exception.ErrorHandler;
 import models.User;
 import repositories.interfaces.IRepository;
-
 import java.sql.*;
 import java.util.LinkedList;
 import java.util.List;
 
+// UserRepository class handles database operations related to users.
 public class UserRepository implements IRepository<User> {
     private final IDB databaseConnection;
     private Connection connection = null; // Default value of connection.
@@ -17,6 +17,7 @@ public class UserRepository implements IRepository<User> {
         this.databaseConnection = databaseConnection;
     }
 
+    // Create a new user record in the database.
     @Override
     public void createRecord(User user) {
         try {
@@ -40,6 +41,7 @@ public class UserRepository implements IRepository<User> {
         }
     }
 
+    // Update an existing user record in the database.
     @Override
     public void updateRecord(int id, String columnName, Object value) {
 
@@ -66,6 +68,7 @@ public class UserRepository implements IRepository<User> {
         }
     }
 
+    // Delete user records from the database.
     @Override
     public void deleteRecord(int... ids) {
         try {
@@ -93,6 +96,7 @@ public class UserRepository implements IRepository<User> {
         }
     }
 
+    // Retrieve a user record by ID from the database.
     @Override
     public User getById(int id) {
         try {
@@ -116,6 +120,7 @@ public class UserRepository implements IRepository<User> {
         return null;
     }
 
+    // Retrieve all user records from the database.
     @Override
     public List<User> getAll() {
         try {
@@ -143,6 +148,7 @@ public class UserRepository implements IRepository<User> {
         return null;
     }
 
+    // Map a ResultSet to a User object.
     @Override
     public User mapResultSet(ResultSet resultSet) throws SQLException {
         User user = new User();
@@ -155,6 +161,7 @@ public class UserRepository implements IRepository<User> {
         return user;
     }
 
+    // Closes the database connection.
     @Override
     public void getFinallyBlock(Connection connection) {
         try {
