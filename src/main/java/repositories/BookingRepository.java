@@ -34,7 +34,7 @@ public class BookingRepository implements IRepository<Booking> {
 
             statement.executeUpdate();
 
-            System.out.println("Booking with id " + booking.getUser_id() + " created successfully.");
+            return true;
 
         } catch (SQLException e) {
             ErrorHandler.handleSQLException(e);
@@ -64,7 +64,7 @@ public class BookingRepository implements IRepository<Booking> {
             preparedStatement.setInt(2, id);
             preparedStatement.executeUpdate();
 
-            System.out.println("Booking information with id " + id + " in " + columnName + " updated successfully.");
+            return true;
 
         } catch (SQLException e) {
             ErrorHandler.handleSQLException(e);
@@ -92,8 +92,7 @@ public class BookingRepository implements IRepository<Booking> {
             }
             preparedStatement.executeUpdate();
 
-            if (bookingIds.length > 1) System.out.println("Records deleted successfully"); // records... if many id.
-            else System.out.println("Record deleted successfully."); // record... if one id.
+            return true;
 
         } catch (SQLException e) {
             ErrorHandler.handleSQLException(e);
