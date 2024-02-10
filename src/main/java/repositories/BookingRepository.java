@@ -7,7 +7,6 @@ import repositories.interfaces.IRepository;
 
 import java.sql.*;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -18,7 +17,7 @@ public class BookingRepository implements IRepository<Booking> {
     public BookingRepository(IDB databaseConnection) { this.databaseConnection = databaseConnection; }
 
     @Override
-    public void createRecord(Booking booking) {
+    public boolean createRecord(Booking booking) {
         try {
             connection = databaseConnection.getConnection();
             String query = "INSERT INTO bookings(user_id, performance_id, seat_number) VALUES (?, ?, ?)";
@@ -37,10 +36,11 @@ public class BookingRepository implements IRepository<Booking> {
         } finally {
             getFinallyBlock(connection);
         }
+        return false;
     }
 
     @Override
-    public void updateRecord(int id, String columnName, Object value) {
+    public boolean updateRecord(int id, String columnName, Object value) {
 
         try {
             connection = databaseConnection.getConnection();
@@ -65,10 +65,11 @@ public class BookingRepository implements IRepository<Booking> {
         } finally {
             getFinallyBlock(connection);
         }
+        return false;
     }
 
     @Override
-    public void deleteRecord(int... bookingIds) {
+    public boolean deleteRecord(int... bookingIds) {
         try {
             connection = databaseConnection.getConnection();
             String query = "DELETE FROM bookings WHERE booking_id IN ("; // Start of the query.
@@ -92,6 +93,7 @@ public class BookingRepository implements IRepository<Booking> {
         } finally {
             getFinallyBlock(connection);
         }
+        return false;
     }
 
 

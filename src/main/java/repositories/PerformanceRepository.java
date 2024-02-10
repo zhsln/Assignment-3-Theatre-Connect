@@ -15,7 +15,7 @@ public class PerformanceRepository implements IRepository<Performance> {
 
     public PerformanceRepository(IDB databaseConnection) { this.databaseConnection = databaseConnection; }
     @Override
-    public void createRecord(Performance performance) {
+    public boolean createRecord(Performance performance) {
         try {
             connection = databaseConnection.getConnection();
             String query = "INSERT INTO performances(title, date, time, duration, venue) VALUES (?, ?, ?, ?, ?)";
@@ -41,10 +41,11 @@ public class PerformanceRepository implements IRepository<Performance> {
         } finally {
             getFinallyBlock(connection);
         }
+        return false;
     }
 
     @Override
-    public void updateRecord(int id, String columnName, Object value) {
+    public boolean updateRecord(int id, String columnName, Object value) {
 
         try {
             connection = databaseConnection.getConnection();
@@ -71,10 +72,11 @@ public class PerformanceRepository implements IRepository<Performance> {
         } finally {
             getFinallyBlock(connection);
         }
+        return false;
     }
 
     @Override
-    public void deleteRecord(int... ids) {
+    public boolean deleteRecord(int... ids) {
         try {
             connection = databaseConnection.getConnection();
             String query = "DELETE FROM performances WHERE id IN ("; // Start of the query.
@@ -98,6 +100,7 @@ public class PerformanceRepository implements IRepository<Performance> {
         } finally {
             getFinallyBlock(connection);
         }
+        return false;
     }
 
     @Override

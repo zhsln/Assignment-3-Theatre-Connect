@@ -18,7 +18,7 @@ public class AdminRepository implements IRepository<Admin> {
     }
 
     @Override
-    public void createRecord(Admin admin) {
+    public boolean createRecord(Admin admin) {
         try {
             connection = databaseConnection.getConnection();
             String query = "INSERT INTO admins(login, password, name, surname, admin_level) VALUES (?, ?, ?, ?, ?)";
@@ -32,17 +32,19 @@ public class AdminRepository implements IRepository<Admin> {
 
             statement.executeUpdate();
 
-            System.out.println("Admin " + admin.getName() + " with level " + admin.getAdminLevel() + " created successfully.");
+            return true;
 
         } catch (SQLException e) {
             ErrorHandler.handleSQLException(e);
         } finally {
             getFinallyBlock(connection);
         }
+
+        return false;
     }
 
     @Override
-    public void updateRecord(int id, String columnName, Object value) {
+    public boolean updateRecord(int id, String columnName, Object value) {
 
         try {
             connection = databaseConnection.getConnection();
@@ -65,10 +67,12 @@ public class AdminRepository implements IRepository<Admin> {
         } finally {
             getFinallyBlock(connection);
         }
+
+        return false;
     }
 
     @Override
-    public void deleteRecord(int... ids) {
+    public boolean deleteRecord(int... ids) {
         try {
             connection = databaseConnection.getConnection();
             String query = "DELETE FROM admins WHERE id IN ("; // Start of the query.
@@ -92,6 +96,8 @@ public class AdminRepository implements IRepository<Admin> {
         } finally {
             getFinallyBlock(connection);
         }
+
+        return false;
     }
 
     @Override

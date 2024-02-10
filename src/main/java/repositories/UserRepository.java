@@ -18,7 +18,7 @@ public class UserRepository implements IRepository<User> {
     }
 
     @Override
-    public void createRecord(User user) {
+    public boolean createRecord(User user) {
         try {
             connection = databaseConnection.getConnection();
             String query = "INSERT INTO users(login, password, name, surname) VALUES (?, ?, ?, ?)";
@@ -31,43 +31,44 @@ public class UserRepository implements IRepository<User> {
 
             statement.executeUpdate();
 
-            System.out.println("User " + user.getName() + " " + user.getSurname() + " created successfully.");
+            return true;
 
         } catch (SQLException e) {
             ErrorHandler.handleSQLException(e);
         } finally {
             getFinallyBlock(connection);
         }
+
+        return false; // if creation went wrong.
     }
 
     @Override
-    public void updateRecord(int id, String columnName, Object value) {
+    public boolean updateRecord(int id, String columnName, Object value) {
 
         try {
             connection = databaseConnection.getConnection();
             String query = "UPDATE users SET " + columnName + " = ? WHERE id = ?";
             PreparedStatement preparedStatement = connection.prepareStatement(query);
             // Depending on the type of value, we use the appropriate set() method.
-            if (value instanceof String) {
-                preparedStatement.setString(1, (String) value);
-            } else if (value instanceof Integer) {
-                preparedStatement.setInt(1, (Integer) value);
-            }
+            preparedStatement.setString(1, (String) value); /* All columns in users table
+                                                                        are character varying type. */
 
             preparedStatement.setInt(2, id);
             preparedStatement.executeUpdate();
 
-            System.out.println("User's information with id " + id + " in " + columnName + " updated successfully.");
+            return true;
 
         } catch (SQLException e) {
             ErrorHandler.handleSQLException(e);
         } finally {
             getFinallyBlock(connection);
         }
+
+        return false; // if updating went wrong.
     }
 
     @Override
-    public void deleteRecord(int... ids) {
+    public boolean deleteRecord(int... ids) {
         try {
             connection = databaseConnection.getConnection();
             String query = "DELETE FROM users WHERE id IN ("; // Start of the query.
@@ -83,14 +84,15 @@ public class UserRepository implements IRepository<User> {
             }
             preparedStatement.executeUpdate();
 
-            if (ids.length > 1) System.out.println("Records deleted successfully"); // records... if many id.
-            else System.out.println("Record deleted successfully."); // record... if one id.
+            return true;
 
         } catch (SQLException e) {
             ErrorHandler.handleSQLException(e);
         } finally {
             getFinallyBlock(connection);
         }
+
+        return false;
     }
 
     @Override
