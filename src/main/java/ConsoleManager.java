@@ -84,7 +84,7 @@ public class ConsoleManager {
                         //manageBookings();
                         break;
                     case 4:
-                        //manageAdmins();
+                        manageAdmins();
                     case 0:
                         System.out.println("\nExiting the programme.");
                         break;
