@@ -4,16 +4,18 @@ import database.interfaces.IDB;
 import exception.ErrorHandler;
 import models.Performance;
 import repositories.interfaces.IRepository;
-
 import java.sql.*;
 import java.util.LinkedList;
 import java.util.List;
 
+// PerformanceRepository class handles operations related to Performance objects in the database.
 public class PerformanceRepository implements IRepository<Performance> {
     private final IDB databaseConnection;
     private Connection connection = null; // Default value of connection.
 
     public PerformanceRepository(IDB databaseConnection) { this.databaseConnection = databaseConnection; }
+
+    // Creates a new record for a performance in the database.
     @Override
     public void createRecord(Performance performance) {
         try {
@@ -43,6 +45,7 @@ public class PerformanceRepository implements IRepository<Performance> {
         }
     }
 
+    // Updates a record for a performance in the database.
     @Override
     public void updateRecord(int id, String columnName, Object value) {
 
@@ -73,6 +76,7 @@ public class PerformanceRepository implements IRepository<Performance> {
         }
     }
 
+    // Deletes records for performances from the database.
     @Override
     public void deleteRecord(int... ids) {
         try {
@@ -100,6 +104,7 @@ public class PerformanceRepository implements IRepository<Performance> {
         }
     }
 
+    // Retrieves a performance by its ID from the database.
     @Override
     public Performance getById(int id) {
         Performance performance = null;
@@ -125,6 +130,7 @@ public class PerformanceRepository implements IRepository<Performance> {
         return null;
     }
 
+    // Retrieves all performances from the database.
     @Override
     public List<Performance> getAll() {
         try {
@@ -152,6 +158,7 @@ public class PerformanceRepository implements IRepository<Performance> {
         return null;
     }
 
+    // Maps a ResultSet object to a Performance object.
     @Override
     public Performance mapResultSet(ResultSet resultSet) throws SQLException {
         Performance performance = new Performance();
@@ -165,6 +172,7 @@ public class PerformanceRepository implements IRepository<Performance> {
         return performance;
     }
 
+    // Closes the database connection.
     @Override
     public void getFinallyBlock(Connection connection) {
         try {
