@@ -1,4 +1,5 @@
 package models;
+
 import database.DatabaseConnection;
 import database.interfaces.IDB;
 import exception.ErrorHandler;
@@ -7,7 +8,6 @@ import lombok.Getter;
 import lombok.Setter;
 import repositories.PerformanceRepository;
 import repositories.UserRepository;
-
 import java.sql.Time;
 import java.time.LocalDate;
 
@@ -32,10 +32,6 @@ public class Booking {
                                 Because seat can have information about rows and your seat number in a row.*/
     private IDB databaseConnection;
 
-    /*public Booking(IDB databaseConnection) {
-        this.databaseConnection = databaseConnection;
-    }*/
-
     // Arguments constructor without booking_id.
     public Booking(int user_id, int performance_id, String seat_number) {
         setUser_id(user_id);
@@ -50,6 +46,7 @@ public class Booking {
         setSeat_number(seat_number);
     }
 
+    // Override toString() method for better representation.
     @Override
     public String toString() {
         try {
