@@ -41,6 +41,7 @@ public class BookingRepository implements IRepository<Booking> {
         } finally {
             getFinallyBlock(connection);
         }
+        
         return false;
     }
 
@@ -71,6 +72,7 @@ public class BookingRepository implements IRepository<Booking> {
         } finally {
             getFinallyBlock(connection);
         }
+        
         return false;
     }
 
@@ -99,6 +101,7 @@ public class BookingRepository implements IRepository<Booking> {
         } finally {
             getFinallyBlock(connection);
         }
+        
         return false;
     }
 
