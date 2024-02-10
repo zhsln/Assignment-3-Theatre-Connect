@@ -66,7 +66,6 @@ public class UserController {
     public String getAllUsers() {
         List<User> users = userRepository.getAll();
         if (users.isEmpty()) {
-            System.out.println("\nThere is no users in database.");
             return null;
 
         } else {

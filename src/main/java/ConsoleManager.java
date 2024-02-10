@@ -197,6 +197,8 @@ public class ConsoleManager {
     private void getAllUsers() {
         System.out.println("\nAll users in database: ");
         String response = userController.getAllUsers();
-        System.out.println(response);
+        if (response != null)
+            System.out.println(response);
+        else System.out.println("\nThere is no users in database.");
     }
 }
