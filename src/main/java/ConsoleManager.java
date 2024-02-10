@@ -1,14 +1,6 @@
 import controllers.UserController;
-import database.interfaces.IDB;
 import exception.ErrorHandler;
-import models.User;
-import repositories.AdminRepository;
-import repositories.BookingRepository;
-import repositories.PerformanceRepository;
-import repositories.UserRepository;
-import java.sql.SQLException;
 import java.util.InputMismatchException;
-import java.util.List;
 import java.util.Scanner;
 import lombok.Setter;
 import lombok.Getter;
@@ -18,10 +10,6 @@ import lombok.Getter;
 
 public class ConsoleManager {
     private final UserController userController;
-    //    private final UserRepository userRepository;
-//    private final AdminRepository adminRepository;
-//    private final PerformanceRepository performanceRepository;
-//    private final BookingRepository bookingRepository;
     private final Scanner scanner;
     private int choice = -1;
 
@@ -29,20 +17,6 @@ public class ConsoleManager {
         this.userController = userController;
         scanner = new Scanner(System.in);
     }
-
-    // Arguments constructor (without int choice).
-//    public ConsoleManager(UserRepository userRepository,
-//                          AdminRepository adminRepository,
-//                          PerformanceRepository performanceRepository,
-//                          BookingRepository bookingRepository)
-//    {
-//        // setters from lombok doesn't work here...
-//        this.userRepository = userRepository;
-//        this.adminRepository = adminRepository;
-//        this.performanceRepository = performanceRepository;
-//        this.bookingRepository = bookingRepository;
-//        scanner = new Scanner(System.in);
-//    }
 
     public void startMainMenu() {
         System.out.println();
@@ -200,105 +174,107 @@ public class ConsoleManager {
             System.out.println(response);
         else System.out.println("\nThere is no users in database.");
     }
-}
 
-// manageAdmins() and other methods below allows us to operate with adminRepository.
-private void manageAdmins() {
-    int adminChoice = -1; // if we use choice variable, then it will cause a problem with exiting whole program in case 0.
-    do {
-        System.out.println();
-        System.out.println("Manage admins:");
-        System.out.println("1. Create admin record;");
-        System.out.println("2. Update admin record;");
-        System.out.println("3. Delete admins records (or one record);");
-        System.out.println("4. Get admin info by ID;");
-        System.out.println("5. Get all admins list;");
-        System.out.println();
-        System.out.println("0. Back");
-        System.out.println();
 
-        try {
-            System.out.print("Select option >>> ");
-            adminChoice = scanner.nextInt();
-            scanner.nextLine();
+    // manageAdmins() and other methods below allows us to operate with adminRepository.
+    private void manageAdmins() {
+        int adminChoice = -1; // if we use choice variable, then it will cause a problem with exiting whole program in case 0.
+        do {
+            System.out.println();
+            System.out.println("Manage admins:");
+            System.out.println("1. Create admin record;");
+            System.out.println("2. Update admin record;");
+            System.out.println("3. Delete admins records (or one record);");
+            System.out.println("4. Get admin info by ID;");
+            System.out.println("5. Get all admins list;");
+            System.out.println();
+            System.out.println("0. Back");
+            System.out.println();
 
-            switch (adminChoice) {
-                case 1:
-                    createAdmin();
-                    break;
-                case 2:
-                    updateAdmin();
-                    break;
-                case 3:
-                    deleteAdmin();
-                    break;
-                case 4:
-                    getAdmin();
-                    break;
-                case 5:
-                    getAllAdmins();
-                    break;
-                case 0:
-                    break;
-                default:
-                    System.err.println("\nIncorrect choice. Try again.");
+            try {
+                System.out.print("Select option >>> ");
+                adminChoice = scanner.nextInt();
+                scanner.nextLine();
+
+                switch (adminChoice) {
+                    case 1:
+                        createAdmin();
+                        break;
+                    case 2:
+                        updateAdmin();
+                        break;
+                    case 3:
+                        deleteAdmin();
+                        break;
+                    case 4:
+                        getAdmin();
+                        break;
+                    case 5:
+                        getAllAdmins();
+                        break;
+                    case 0:
+                        break;
+                    default:
+                        System.err.println("\nIncorrect choice. Try again.");
+                }
+            } catch (InputMismatchException e) {
+                ErrorHandler.handleInputMismatchException(e);
             }
-        } catch (InputMismatchException e) {
-            ErrorHandler.handleInputMismatchException(e);
-        }
-    } while (adminChoice != 0);
+        } while (adminChoice != 0);
+    }
+
+    private void createAdmin() { // method title speaks for itself...
+        System.out.println("Enter information about new admin.");
+        System.out.print("Login: ");
+        String login = scanner.nextLine();
+        System.out.print("Password: ");
+        String password = scanner.nextLine();
+        System.out.print("Name: ");
+        String name = scanner.nextLine();
+        System.out.print("Surname: ");
+        String surname = scanner.nextLine();
+
+        String response = adminController.createAdmin(login, password, name, surname);
+        System.out.println(response);
+    }
+
+    private void updateAdmin() {
+        System.out.println("Update information about admin.");
+        System.out.print("Enter admin's ID: ");
+        int adminId = scanner.nextInt();
+        scanner.nextLine();
+
+        System.out.print("Enter column name (login, password, name, surname): ");
+        String columnName = scanner.nextLine(); // Every column in admins table are character varying type.
+        System.out.print("Enter a new value: ");
+        String value = scanner.nextLine(); // Every column in admins table are character varying type.
+
+        String response = adminController.updateAdmin(adminId, columnName, value);
+        System.out.println(response);
+    }
+
+    private void deleteAdmin() {
+        System.out.println("Delete admins records (or one record).");
+        System.out.print("Enter admin's ID (or several admins ID separated by comma): ");
+
+        String input = scanner.nextLine();
+        adminController.deleteAdmin(input);
+    }
+
+    private void getAdmin() {
+        System.out.println("Get information about admin by ID.");
+        System.out.print("Enter admin's ID: ");
+        int adminId = scanner.nextInt();
+        scanner.nextLine();
+
+        String response = adminController.getAdminById(adminId);
+        System.out.println(response);
+    }
+
+    private void getAllAdmins() {
+        System.out.println("\nAll admins in database: ");
+        String response = adminController.getAllAdmins();
+        System.out.println(response);
+    }
 }
 
-private void createAdmin() { // method title speaks for itself...
-    System.out.println("Enter information about new admin.");
-    System.out.print("Login: ");
-    String login = scanner.nextLine();
-    System.out.print("Password: ");
-    String password = scanner.nextLine();
-    System.out.print("Name: ");
-    String name = scanner.nextLine();
-    System.out.print("Surname: ");
-    String surname = scanner.nextLine();
-
-    String response = adminController.createAdmin(login, password, name, surname);
-    System.out.println(response);
-}
-
-private void updateAdmin() {
-    System.out.println("Update information about admin.");
-    System.out.print("Enter admin's ID: ");
-    int adminId = scanner.nextInt();
-    scanner.nextLine();
-
-    System.out.print("Enter column name (login, password, name, surname): ");
-    String columnName = scanner.nextLine(); // Every column in admins table are character varying type.
-    System.out.print("Enter a new value: ");
-    String value = scanner.nextLine(); // Every column in admins table are character varying type.
-
-    String response = adminController.updateAdmin(adminId, columnName, value);
-    System.out.println(response);
-}
-
-private void deleteAdmin() {
-    System.out.println("Delete admins records (or one record).");
-    System.out.print("Enter admin's ID (or several admins ID separated by comma): ");
-
-    String input = scanner.nextLine();
-    adminController.deleteAdmin(input);
-}
-
-private void getAdmin() {
-    System.out.println("Get information about admin by ID.");
-    System.out.print("Enter admin's ID: ");
-    int adminId = scanner.nextInt();
-    scanner.nextLine();
-
-    String response = adminController.getAdminById(adminId);
-    System.out.println(response);
-}
-
-private void getAllAdmins() {
-    System.out.println("\nAll admins in database: ");
-    String response = adminController.getAllAdmins();
-    System.out.println(response);
-}
