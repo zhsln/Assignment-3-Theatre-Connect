@@ -4,11 +4,11 @@ import database.interfaces.IDB;
 import exception.ErrorHandler;
 import models.User;
 import repositories.interfaces.IRepository;
-
 import java.sql.*;
 import java.util.LinkedList;
 import java.util.List;
 
+// UserRepository class handles database operations related to users.
 public class UserRepository implements IRepository<User> {
     private final IDB databaseConnection;
     private Connection connection = null; // Default value of connection.
@@ -17,6 +17,7 @@ public class UserRepository implements IRepository<User> {
         this.databaseConnection = databaseConnection;
     }
 
+    // Create a new user record in the database.
     @Override
     public boolean createRecord(User user) {
         try {
@@ -42,6 +43,7 @@ public class UserRepository implements IRepository<User> {
         return false; // if creation went wrong.
     }
 
+    // Update an existing user record in the database.
     @Override
     public boolean updateRecord(int id, String columnName, Object value) {
 
@@ -67,6 +69,7 @@ public class UserRepository implements IRepository<User> {
         return false; // if updating went wrong.
     }
 
+    // Delete user records from the database.
     @Override
     public boolean deleteRecord(int... ids) {
         try {
@@ -95,6 +98,7 @@ public class UserRepository implements IRepository<User> {
         return false;
     }
 
+    // Retrieve a user record by ID from the database.
     @Override
     public User getById(int id) {
         try {
@@ -118,6 +122,7 @@ public class UserRepository implements IRepository<User> {
         return null;
     }
 
+    // Retrieve all user records from the database.
     @Override
     public List<User> getAll() {
         try {
@@ -145,6 +150,7 @@ public class UserRepository implements IRepository<User> {
         return null;
     }
 
+    // Map a ResultSet to a User object.
     @Override
     public User mapResultSet(ResultSet resultSet) throws SQLException {
         User user = new User();
@@ -157,6 +163,7 @@ public class UserRepository implements IRepository<User> {
         return user;
     }
 
+    // Closes the database connection.
     @Override
     public void getFinallyBlock(Connection connection) {
         try {

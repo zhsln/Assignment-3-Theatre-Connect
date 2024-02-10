@@ -4,11 +4,11 @@ import database.interfaces.IDB;
 import exception.ErrorHandler;
 import models.Admin;
 import repositories.interfaces.IRepository;
-
 import java.sql.*;
 import java.util.LinkedList;
 import java.util.List;
 
+// Repository class for handling Admin objects in the database.
 public class AdminRepository implements IRepository<Admin> {
     private final IDB databaseConnection;
     private Connection connection = null; // Default value of connection.
@@ -17,6 +17,7 @@ public class AdminRepository implements IRepository<Admin> {
         this.databaseConnection = databaseConnection;
     }
 
+    // Create a new record for an admin in the database.
     @Override
     public boolean createRecord(Admin admin) {
         try {
@@ -43,6 +44,7 @@ public class AdminRepository implements IRepository<Admin> {
         return false;
     }
 
+    // Update a record for an admin in the database.
     @Override
     public boolean updateRecord(int id, String columnName, Object value) {
 
@@ -71,6 +73,7 @@ public class AdminRepository implements IRepository<Admin> {
         return false;
     }
 
+    // Delete records for admins from the database.
     @Override
     public boolean deleteRecord(int... ids) {
         try {
@@ -100,6 +103,7 @@ public class AdminRepository implements IRepository<Admin> {
         return false;
     }
 
+    // Get an admin by ID from the database.
     @Override
     public Admin getById(int id) {
         try {
@@ -123,6 +127,7 @@ public class AdminRepository implements IRepository<Admin> {
         return null;
     }
 
+    // Get all admins from the database.
     @Override
     public List<Admin> getAll() {
         try {
@@ -150,6 +155,7 @@ public class AdminRepository implements IRepository<Admin> {
         return null;
     }
 
+    // Map a result set to an admin object.
     @Override
     public Admin mapResultSet(ResultSet resultSet) throws SQLException {
         Admin admin = new Admin();
@@ -162,6 +168,7 @@ public class AdminRepository implements IRepository<Admin> {
         return admin;
     }
 
+    // Closes the database connection.
     @Override
     public void getFinallyBlock(Connection connection) {
         try {

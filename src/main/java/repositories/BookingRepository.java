@@ -4,18 +4,23 @@ import database.interfaces.IDB;
 import exception.ErrorHandler;
 import models.Booking;
 import repositories.interfaces.IRepository;
-
 import java.sql.*;
 import java.time.LocalDate;
 import java.util.LinkedList;
 import java.util.List;
 
+/**
+ * The BookingRepository class provides methods to interact with the bookings table in the database.
+ * It implements the IRepository interface for generic database operations.
+ */
 public class BookingRepository implements IRepository<Booking> {
     private final IDB databaseConnection;
     private Connection connection = null; // Default value for connection.
 
+    // Constructs a BookingRepository object with a specified database connection.
     public BookingRepository(IDB databaseConnection) { this.databaseConnection = databaseConnection; }
 
+    // Inserts a new booking record into the bookings table.
     @Override
     public boolean createRecord(Booking booking) {
         try {
@@ -39,6 +44,7 @@ public class BookingRepository implements IRepository<Booking> {
         return false;
     }
 
+    // Updates a booking record in the bookings table based on the provided id.
     @Override
     public boolean updateRecord(int id, String columnName, Object value) {
 
@@ -68,6 +74,7 @@ public class BookingRepository implements IRepository<Booking> {
         return false;
     }
 
+    // Deletes booking records from the bookings table based on the provided booking ids.
     @Override
     public boolean deleteRecord(int... bookingIds) {
         try {
@@ -96,7 +103,7 @@ public class BookingRepository implements IRepository<Booking> {
         return false;
     }
 
-
+    // Retrieves a booking record from the bookings table based on the provided booking id.
     @Override
     public Booking getById(int booking_id) {
         try {
@@ -126,6 +133,7 @@ public class BookingRepository implements IRepository<Booking> {
         return null;
     }
 
+    // Retrieves all booking records from the bookings table.
     @Override
     public List<Booking> getAll() {
         try {
@@ -170,6 +178,7 @@ public class BookingRepository implements IRepository<Booking> {
         return null;
     }
 
+    // Maps the current row of the ResultSet to a Booking object.
     @Override
     public Booking mapResultSet(ResultSet resultSet) throws SQLException {
         Booking booking = new Booking();
@@ -187,6 +196,7 @@ public class BookingRepository implements IRepository<Booking> {
         return booking;
     }
 
+    // Closes the database connection.
     @Override
     public void getFinallyBlock(Connection connection) {
         try {

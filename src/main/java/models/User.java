@@ -25,6 +25,7 @@ public class User {
         setSurname(surname);
     }
 
+    // Override toString() method for better representation.
     @Override
     public String toString() {
         return "==============================" +
