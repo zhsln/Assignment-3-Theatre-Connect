@@ -32,17 +32,14 @@ public class PerformanceRepository implements IRepository<Performance> {
 
             statement.executeUpdate();
 
-            System.out.println("Performance " + performance.getTitle() +
-                    " (" + performance.getDate() + " " + performance.getTime() + ") created successfully.");
-            /* Example,
-                Performance Swan Lake (10-02-2024 00:27:48) created successfully.
-            */
+            return true;
 
         } catch (SQLException e) {
             ErrorHandler.handleSQLException(e);
         } finally {
             getFinallyBlock(connection);
         }
+        
         return false;
     }
 
@@ -68,13 +65,14 @@ public class PerformanceRepository implements IRepository<Performance> {
             preparedStatement.setInt(2, id);
             preparedStatement.executeUpdate();
 
-            System.out.println("Information about performance with id " + id + " in " + columnName + " updated successfully.");
+            return true;
 
         } catch (SQLException e) {
             ErrorHandler.handleSQLException(e);
         } finally {
             getFinallyBlock(connection);
         }
+        
         return false;
     }
 
@@ -96,14 +94,14 @@ public class PerformanceRepository implements IRepository<Performance> {
             }
             preparedStatement.executeUpdate();
 
-            if (ids.length > 1) System.out.println("Records deleted successfully"); // records... if many id
-            else System.out.println("Record deleted successfully."); // record... if one id.
+            return true;
 
         } catch (SQLException e) {
             ErrorHandler.handleSQLException(e);
         } finally {
             getFinallyBlock(connection);
         }
+        
         return false;
     }
 
