@@ -17,6 +17,7 @@ import java.time.LocalDate;
 
 public class Booking {
     // name of fields are the same as in the table in Database.
+    // I added them to lombok setters. Programme use them in BookingRepository.mapResultSet() method.
     private int booking_id;
     private int user_id;
     private String user_name;
@@ -32,9 +33,15 @@ public class Booking {
                                 Because seat can have information about rows and your seat number in a row.
                                 Example: Parterre: Row 13, Seat 10 */
 
-    // Arguments constructor.
+    // Arguments constructor with booking_id for BookingRepository.getById() method.
     public Booking(int booking_id, int user_id, int performance_id, String seat_number) {
         setBooking_id(booking_id);
+        setUser_id(user_id);
+        setPerformance_id(performance_id);
+        setSeat_number(seat_number);
+    }
+    // Overloaded constructor without booking_id.
+    public Booking(int user_id, int performance_id, String seat_number) {
         setUser_id(user_id);
         setPerformance_id(performance_id);
         setSeat_number(seat_number);
@@ -53,14 +60,14 @@ public class Booking {
             if (performance != null && user != null)
                 return "\n==============================" +
                         "\n| Booking with ID: " + booking_id +
-                        "\n| User's full name: " + user.getName() + " " + user.getSurname() +
+                        "\n| User's ID: " + user.getId() +
+                        "\n| User's full name: " + user_id + " " + user.getSurname() +
                         "\n| Performance ID: " + performance_id +
                         "\n| Performance title: " + performance.getTitle() +
                         "\n| Venue: " + performance.getVenue() +
                         "\n| Date and Time: " + performance.getDate() + " " + performance.getTime() +
                         "\n| Seat: " + seat_number +
                         "\n==============================";
-
         } catch (Exception e) {
             ErrorHandler.handleException(e);
         }
