@@ -1,0 +1,84 @@
+→ User.java
+·Represents a user entity in the system.
+·Contains attributes such as id, login, password, name, and surname.
+·Provides constructors to initialize user objects with and without an ID.
+·Overrides the toString() method to provide a customized string representation of a user object.
+
+→ Admin.java
+·Inherits from the User class, representing an admin user in the system.
+·Introduces an additional attribute adminLevel to denote the privilege level of the admin.
+·Provides constructors to initialize admin objects with and without an ID.
+·Overrides the toString() method to provide a customized string representation of an admin object.
+
+→ Performance.java
+·Represents a performance entity in the system.
+·Contains attributes such as id, title, date, time, duration, and venue.
+·Provides a constructor to initialize performance objects.
+·Overrides the toString() method to provide a customized string representation of a performance object.
+
+→ Booking.java
+·Represents a booking entity in the system.
+·Contains attributes such as booking_id, user_id, performance_id, seat_number, and additional attributes to represent associated user and performance details.
+·Provides constructors to initialize booking objects.
+·Overrides the toString() method to provide a customized string representation of a booking object.
+
+→ DatabaseConnection.java
+·Manages the connection to the PostgreSQL database.
+·Implements the IDB interface to provide a method for obtaining a database connection.
+·Uses JDBC to establish and manage the database connection.
+
+→ DatabaseManager.java
+·Placeholder class for managing database operations.
+·Currently empty and does not contain any specific functionality.
+
+→ UserController.java
+·Controller class responsible for handling user-related operations.
+·Interacts with the UserRepository to perform CRUD operations on user entities.
+
+→ AdminController.java
+·Controller class responsible for handling admin-related operations.
+·Interacts with the AdminRepository to perform CRUD operations on admin entities.
+
+→ PerformanceController.java
+·Responsible for managing performance-related business logic within the application.
+·Interacts with the PerformanceRepository to perform CRUD operations on performance records.
+
+→ BookingController.java
+·Manages booking-related business logic, overseeing the flow of operations associated with bookings.
+·Interacts with the BookingRepository to perform CRUD operations on booking records.
+
+→ Main Class.java
+·Acts as the entry point for the application, orchestrating initialization of vital components like database connections, repositories, controllers, and the console manager.
+·Initiates the main menu loop by invoking the startMainMenu() method of the ConsoleMainManager instance.
+
+→ ConsoleMainManager.java
+·Manages the primary menu interface of the application, facilitating user interaction and navigation.
+·Provides options for managing users, performances, bookings, and admins through the console.
+·Guides users in selecting options and dispatches tasks to other manager classes as required.
+
+→ ConsoleUserManager.java
+·Handles user-related operations via the console interface, offering functionalities for creating, updating, deleting, and retrieving user records.
+·Engages users in these operations and coordinates tasks with the UserController.
+
+→ ConsoleAdminManager.java
+·Controls admin-related functionalities through the console interface, enabling actions such as creating, updating, deleting, and retrieving admin records.
+·Interacts with users to execute these operations and delegates tasks to the AdminController.
+
+→ ConsolePerformanceManager.java
+·Manages performance-related functionalities via the console interface, providing options for creating, updating, deleting, and retrieving performance records.
+·Interacts with users to carry out these tasks and assigns responsibilities to the PerformanceController.
+
+→ ConsoleBookingManager.java
+·Oversees booking-related operations via the console interface, offering capabilities for creating, updating, deleting, and retrieving booking records.
+·Interacts with users to conduct these actions and assigns tasks to the BookingController.
+
+→ ConsoleManager.java
+·Acts as an interface between the user and the application via the console.
+·Presents menus and options for managing users and admins.
+·Uses Scanner for user input and error handling for input mismatches.
+
+→ ErrorHandler.java
+·Provides static methods to handle various types of exceptions that may occur in the application, such as SQL exceptions, parse exceptions, and input mismatches.
+
+→ IDB.java
+·Interface defining a method for obtaining a database connection.
