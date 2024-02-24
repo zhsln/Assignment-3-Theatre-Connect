@@ -66,16 +66,35 @@ public class ConsoleUserManager {
 
     private void createUser() { // method title speaks for itself...
         System.out.println("Enter information about new user.");
+
         System.out.print("Login: ");
         String login = scanner.nextLine();
+
         System.out.print("Password: ");
         String password = scanner.nextLine();
+
         System.out.print("Name: ");
         String name = scanner.nextLine();
+
         System.out.print("Surname: ");
         String surname = scanner.nextLine();
 
-        String response = userController.createUser(login, password, name, surname);
+        // Entering is user editor or not.
+        System.out.print("Is editor? (Yes or No ?): ");
+        String isEditor = scanner.nextLine();
+        Boolean editor = false; // Default value.
+        if (isEditor.toLowerCase() == "yes" || isEditor == "1")
+            editor = true;
+
+        // Entering is user manager or not.
+        System.out.print("Is manager? (Yes or No ?): ");
+        String isManager = scanner.nextLine();
+        Boolean manager = false; // Default value.
+        if (isManager.toLowerCase() == "yes" || isManager == "1") {
+            manager = true;
+        }
+
+        String response = userController.createUser(login, password, name, surname, editor, manager);
         System.out.println(response);
     }
 
@@ -86,10 +105,21 @@ public class ConsoleUserManager {
             int userId = scanner.nextInt();
             scanner.nextLine();
 
-            System.out.print("Enter column name (login, password, name, surname): ");
+            System.out.print("Enter column name (login, password, name, surname, editor, manager): ");
             String columnName = scanner.nextLine();
+
             System.out.print("Enter a new value: ");
-            String value = scanner.nextLine();
+            Object value;
+            String valueStr = scanner.nextLine();
+            if (columnName.equals("editor") || columnName.equals("manager")) {
+                if (valueStr.toLowerCase().equals("true") || valueStr.equals("1")) {
+                    value = true;
+                } else if (valueStr.toLowerCase().equals("false") || valueStr.toLowerCase().equals("0")) {
+                    value = false;
+                } else
+                    throw new InputMismatchException();
+            } else
+                value = valueStr;
 
             String response = userController.updateUser(userId, columnName, value);
             System.out.println(response);
@@ -98,6 +128,7 @@ public class ConsoleUserManager {
         } catch (Exception e) {
             ErrorHandler.handleException(e);
         } finally {
+            System.out.println("Press Enter to continue.");
             scanner.nextLine();
         }
     }

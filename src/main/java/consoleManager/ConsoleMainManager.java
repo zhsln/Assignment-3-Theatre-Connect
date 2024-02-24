@@ -1,6 +1,5 @@
 package consoleManager;
 
-import controllers.AdminController;
 import controllers.BookingController;
 import controllers.PerformanceController;
 import controllers.UserController;
@@ -18,22 +17,18 @@ public class ConsoleMainManager {
     private final UserController userController;
     private final ConsoleUserManager consoleUserManager;
 
-    private final AdminController adminController;
-    private final ConsoleAdminManager consoleAdminManager;
-
     private final PerformanceController performanceController;
     private final ConsolePerformanceManager consolePerformanceManager;
 
     private final BookingController bookingController;
     private final ConsoleBookingManager consoleBookingManager;
 
-    public ConsoleMainManager(UserController userController, AdminController adminController,
-                              PerformanceController performanceController, BookingController bookingController) {
+    public ConsoleMainManager(UserController userController,
+                              PerformanceController performanceController,
+                              BookingController bookingController)
+    {
         this.userController = userController;
         this.consoleUserManager = new ConsoleUserManager(userController);
-
-        this.adminController = adminController;
-        this.consoleAdminManager = new ConsoleAdminManager(adminController);
 
         this.performanceController = performanceController;
         this.consolePerformanceManager = new ConsolePerformanceManager(performanceController);
@@ -46,12 +41,14 @@ public class ConsoleMainManager {
         int choice = -1;
         System.out.println();
         System.out.println(
-                        "████████╗██╗  ██╗███████╗ █████╗ ████████╗██████╗ ███████╗     ██████╗ ██████╗ ███╗   ██╗███╗   ██╗███████╗ ██████╗████████╗\n" +
-                        "╚══██╔══╝██║  ██║██╔════╝██╔══██╗╚══██╔══╝██╔══██╗██╔════╝    ██╔════╝██╔═══██╗████╗  ██║████╗  ██║██╔════╝██╔════╝╚══██╔══╝\n" +
-                        "   ██║   ███████║█████╗  ███████║   ██║   ██████╔╝█████╗█████╗██║     ██║   ██║██╔██╗ ██║██╔██╗ ██║█████╗  ██║        ██║   \n" +
-                        "   ██║   ██╔══██║██╔══╝  ██╔══██║   ██║   ██╔══██╗██╔══╝╚════╝██║     ██║   ██║██║╚██╗██║██║╚██╗██║██╔══╝  ██║        ██║   \n" +
-                        "   ██║   ██║  ██║███████╗██║  ██║   ██║   ██║  ██║███████╗    ╚██████╗╚██████╔╝██║ ╚████║██║ ╚████║███████╗╚██████╗   ██║   \n" +
-                        "   ╚═╝   ╚═╝  ╚═╝╚══════╝╚═╝  ╚═╝   ╚═╝   ╚═╝  ╚═╝╚══════╝     ╚═════╝ ╚═════╝ ╚═╝  ╚═══╝╚═╝  ╚═══╝╚══════╝ ╚═════╝   ╚═╝   \n");
+                """
+                        ████████╗██╗  ██╗███████╗ █████╗ ████████╗██████╗ ███████╗     ██████╗ ██████╗ ███╗   ██╗███╗   ██╗███████╗ ██████╗████████╗
+                        ╚══██╔══╝██║  ██║██╔════╝██╔══██╗╚══██╔══╝██╔══██╗██╔════╝    ██╔════╝██╔═══██╗████╗  ██║████╗  ██║██╔════╝██╔════╝╚══██╔══╝
+                           ██║   ███████║█████╗  ███████║   ██║   ██████╔╝█████╗█████╗██║     ██║   ██║██╔██╗ ██║██╔██╗ ██║█████╗  ██║        ██║  \s
+                           ██║   ██╔══██║██╔══╝  ██╔══██║   ██║   ██╔══██╗██╔══╝╚════╝██║     ██║   ██║██║╚██╗██║██║╚██╗██║██╔══╝  ██║        ██║  \s
+                           ██║   ██║  ██║███████╗██║  ██║   ██║   ██║  ██║███████╗    ╚██████╗╚██████╔╝██║ ╚████║██║ ╚████║███████╗╚██████╗   ██║  \s
+                           ╚═╝   ╚═╝  ╚═╝╚══════╝╚═╝  ╚═╝   ╚═╝   ╚═╝  ╚═╝╚══════╝     ╚═════╝ ╚═════╝ ╚═╝  ╚═══╝╚═╝  ╚═══╝╚══════╝ ╚═════╝   ╚═╝  \s
+                        """);
         // We used https://www.fancytextpro.com/BigTextGenerator to create this text.
         do {
             System.out.println();
@@ -61,7 +58,6 @@ public class ConsoleMainManager {
             System.out.println("1. Manage users");
             System.out.println("2. Manage performances");
             System.out.println("3. Manage bookings");
-            System.out.println("4. Manage admins");
             System.out.println();
             System.out.println("0. Exit");
             System.out.println();
@@ -84,10 +80,6 @@ public class ConsoleMainManager {
                     case 3:
                         ConsoleBookingManager bookingManager = new ConsoleBookingManager(bookingController);
                         bookingManager.manageBookings();
-                        break;
-                    case 4:
-                        ConsoleAdminManager adminManager = new ConsoleAdminManager(adminController);
-                        adminManager.manageAdmins();
                         break;
                     case 0:
                         System.out.println("\nExiting the programme.");
