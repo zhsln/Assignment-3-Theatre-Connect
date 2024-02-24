@@ -2,6 +2,7 @@ package repositories;
 
 import database.interfaces.IDB;
 import exception.ErrorHandler;
+import models.Booking;
 import models.User;
 import repositories.interfaces.IRepository;
 import java.sql.*;
@@ -22,13 +23,15 @@ public class UserRepository implements IRepository<User> {
     public boolean createRecord(User user) {
         try {
             connection = databaseConnection.getConnection();
-            String query = "INSERT INTO users(login, password, name, surname) VALUES (?, ?, ?, ?)";
+            String query = "INSERT INTO users(login, password, name, surname, editor, manager) VALUES (?, ?, ?, ?, ?, ?)";
             PreparedStatement statement = connection.prepareStatement(query);
 
             statement.setString(1,user.getLogin());
             statement.setString(2, user.getPassword());
             statement.setString(3, user.getName());
             statement.setString(4, user.getSurname());
+            statement.setBoolean(5, user.getEditor());
+            statement.setBoolean(6, user.getManager());
 
             statement.executeUpdate();
 
@@ -51,9 +54,12 @@ public class UserRepository implements IRepository<User> {
             connection = databaseConnection.getConnection();
             String query = "UPDATE users SET " + columnName + " = ? WHERE id = ?";
             PreparedStatement preparedStatement = connection.prepareStatement(query);
+
             // Depending on the type of value, we use the appropriate set() method.
-            preparedStatement.setString(1, (String) value); /* All columns in users table
-                                                                        are character varying type. */
+            if (value instanceof String)
+                preparedStatement.setString(1, (String) value);
+            else if (value instanceof Boolean)
+                preparedStatement.setBoolean(1, (Boolean) value);
 
             preparedStatement.setInt(2, id);
             preparedStatement.executeUpdate();
@@ -159,6 +165,8 @@ public class UserRepository implements IRepository<User> {
         user.setPassword(resultSet.getString("password"));
         user.setName(resultSet.getString("name"));
         user.setSurname(resultSet.getString("surname"));
+        user.setEditor(resultSet.getBoolean("editor"));
+        user.setManager(resultSet.getBoolean("manager"));
 
         return user;
     }
