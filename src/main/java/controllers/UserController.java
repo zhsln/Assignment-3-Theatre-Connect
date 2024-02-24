@@ -17,8 +17,8 @@ public class UserController {
         return userRepository.getById(id) != null; // if exists then it not null and return will be 1 (true) and vice-versa.
     }
 
-    public String createUser(String login, String password, String name, String surname) {
-        User user = new User(login, password, name, surname);
+    public String createUser(String login, String password, String name, String surname, Boolean editor, Boolean manager) {
+        User user = new User(login, password, name, surname, editor, manager);
         boolean created = userRepository.createRecord(user);
 
         return (created ? "\nUser " + user.getName() + " " + user.getSurname() + " created successfully."
@@ -31,7 +31,7 @@ public class UserController {
 
             if (updated)
                 return "\nUser's information with ID " + id + " in " + columnName + " updated successfully.";
-            else return "\nUpdate was failed!";
+            else return "\nUpdate was failed! Press Enter to continue.";
 
         } else return "\nUser with ID " + id + " not found.";
     }
