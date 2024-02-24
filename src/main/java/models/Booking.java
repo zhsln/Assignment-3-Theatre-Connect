@@ -2,9 +2,7 @@ package models;
 import database.DatabaseConnection;
 import database.interfaces.IDB;
 import exception.ErrorHandler;
-import lombok.NoArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import repositories.PerformanceRepository;
 import repositories.UserRepository;
 
@@ -27,7 +25,7 @@ public class Booking {
     private String performance_venue;
     private LocalDate performance_date;
     private Time performance_time;
-    private String seat_number; /*Seat number is String,
+    private String seat_number; /* Seat number is String,
                                 because in theatre your seat can be in the balcony, for example,
                                 and it should be noted by words in your ticket. And why it is called a number?
                                 Because seat can have information about rows and your seat number in a row.
